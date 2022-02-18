@@ -1,9 +1,6 @@
 package edu.umd.enpm614.sample;
 
-import edu.umd.enpm614.sample.service.Database;
-import edu.umd.enpm614.sample.service.MySqlDatabase;
-import edu.umd.enpm614.sample.service.OracleDatabase;
-import edu.umd.enpm614.sample.service.PlaceholderService;
+import edu.umd.enpm614.sample.service.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -25,14 +22,32 @@ public class AppConfig {
         return new MySqlDatabase();
     }
 
-    @Primary
     @Bean(name = INJECT_SECURE_DB)
     public Database getSecureDatabase() {
         return new OracleDatabase();
     }
 
+    private void test() {
+        this.connectToDatabase(new DatabaseTest());
+        this.connectToDatabase(new SecuredDatabse());
+    }
+
     @Bean()
     public void doSomeBeanWork() {
         placeholderService.doSomeWork();
+    }
+
+    public void connectToDatabase(DatabaseTest db) {
+        db.get();
+    }
+
+    @Bean
+    public AuthenticationService authenticationService() {
+        return new DbAuthenticationService();
+    }
+
+    @Bean
+    public Login login(AuthenticationService authenticationService) {
+        return new Login(authenticationService);
     }
 }

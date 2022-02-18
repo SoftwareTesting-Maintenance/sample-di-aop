@@ -1,22 +1,29 @@
 package edu.umd.enpm614.sample.service;
 
+import edu.umd.enpm614.sample.AppConfig;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 @Component
 public class PlaceholderService {
-    private final Database db;
+    private Database db;
     public PlaceholderService() {
         db = new OracleDatabase();
         doSomeWork();
     }
 
     @Inject
-    public PlaceholderService(Database db) {
+    public PlaceholderService(@Named(AppConfig.INJECT_OPEN_DB) Database db) {
         this.db = db;
         System.out.println("From inside placeholder service " + db);
         doSomeWork();
+    }
+
+    @Inject
+    public void setDb(@Named(AppConfig.INJECT_OPEN_DB) Database db) {
+        this.db = db;
     }
 
     public boolean doSomeWork() {

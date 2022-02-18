@@ -2,6 +2,7 @@ package edu.umd.enpm614.sample;
 
 import edu.umd.enpm614.sample.service.Database;
 import edu.umd.enpm614.sample.service.MySqlDatabase;
+import edu.umd.enpm614.sample.service.OracleDatabase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,7 +45,7 @@ class AppConfigTest {
     public static class TestConfig {
         @Bean(name = INJECT_SECURE_DB)
         public Database getDatabase() {
-            return new MySqlDatabase();
+            return new OracleDatabase();
         }
     }
 }
